@@ -1,0 +1,20 @@
+To get multiple games running at the same time, I used Python’s threading module.
+
+The way it works is the server listens for clients trying to connect. When a new client connects,
+I add them to a list I called waiting_clients. Since there's a chance more than one client could connect right
+at the same time,I put a lock (wait_lock) around the code that adds to that list.
+This just makes sure the list gets updated correctly and avoids any issues if two clients try to get matched up at once.
+
+Once the server sees that there are two clients in the waiting_clients list,
+it takes them out of the list and pairs them up for a game.
+Then, it starts a new thread to handle the game between those two players.This is done using a function I wrote
+called handle_game(). I set that thread as a daemon thread. This basically means that if the main server
+program needs to close, this game thread won't stop it from exiting. This thread takes care of the whole game for
+those two players: from making sure they both sent the "want game" message,
+to dealing the cards, and playing all 26 rounds. It does all of this on its own, separate from the main server
+loop that’s looking for new players.
+So, while each of these threads is running a game, the main server part can keep listening for more clients and
+starting up new games. This means multiple games can be happening at the same time without slowing each other down.
+
+In my testing, I was able to have a few games going at once (even when I made some clients act a bit laggy) and the
+server didn't seem to have any problems or crash.
