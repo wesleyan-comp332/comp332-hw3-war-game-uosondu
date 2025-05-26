@@ -1,0 +1,5 @@
+1: Two clients successfully completed a game with the server in under 3 seconds.
+2: The server correctly handled a game with a buggy client, and continued functioning as expected afterwards.
+3: Successfully completed multiple games at the same time.
+
+Total points: 110/ 100
